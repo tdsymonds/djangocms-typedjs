@@ -1,0 +1,31 @@
+{% load cms_tags sekizai_tags %}
+
+{% if instance.child_plugin_instances %}
+    <div id="typed-strings-{{ instance.pk }}">
+        {% for plugin in instance.child_plugin_instances %}
+            {% render_plugin plugin %}
+        {% endfor %}
+    </div>
+{% endif %}
+<span class="typed typed-{{ instance.pk }}"></span>
+
+{% addtoblock "css" %}
+    <style type="text/css">.typed p{display:inline;}{% if instance.blinking_cursor %}.typed-cursor{opacity:1;-webkit-animation:blink .7s infinite;-moz-animation:blink .7s infinite;animation:blink .7s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}@-webkit-keyframes blink{0%,100%{opacity:1}50%{opacity:0}}@-moz-keyframes blink{0%,100%{opacity:1}50%{opacity:0}}{% endif %}</style>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script type="text/javascript" src="{{ app_settings.JS_URL }}"></script>
+    <script type="text/javascript">
+        $(function(){
+            {% if instance.json_config %}
+                var defaultConfig = {stringsElement: $('#typed-strings-{{ instance.pk }}')}
+                var userConfig = {{ instance.json_config|safe }}
+                var config = {}
+                $.extend(config, defaultConfig, userConfig);
+            {% else %}
+                var config = {stringsElement: $('#typed-strings-{{ instance.pk }}')}
+            {% endif %}
+            $(".typed-{{ instance.pk }}").typed(config);
+        });
+    </script>
+{% endaddtoblock %}

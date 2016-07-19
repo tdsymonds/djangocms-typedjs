@@ -1,0 +1,7 @@
+include LICENSE
+include README.rst
+recursive-include djangocms_typedjs/locale *
+recursive-include djangocms_typedjs/migrations *
+recursive-include djangocms_typedjs/static *
+recursive-include djangocms_typedjs/templates *
+recursive-include djangocms_typedjs/tests *
